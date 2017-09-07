@@ -1,0 +1,68 @@
+
+# read data
+prd_spend <-read.csv(file="prod_spend.csv",
+                     head=T)
+names(prd_spend)
+str(prd_spend)
+summary(prd_spend)
+
+
+  Add column
+
+For Prod Group: Reward and Non-Reward
+table(prd_spend$Prod_Code)
+
+Change Name of a column using index
+colnames(prd_spend)[5] <-"product.grouping"
+colnames(prd_spend)
+
+prd_spend1 <- prd_spend1[,c(1,2)]
+prd_spend1 <- prd_spend1[,c("Balance","Spend_Value")]
+names(prd_spend1)
+
+
+Rename Column Name
+
+ get existing column names
+names(prd_spend)
+
+colnames(prd_spend)
+rownames(prd_spend)
+
+
+ drop one column using index
+prd_spend1 <-prd_spend
+names(prd_spend1)
+prd_spend1 <- prd_spend1[,-2] # we have to sure of the index
+names(prd_spend1)
+# drop column using variable name
+prd_spend1 <- prd_spend1[,!names(prd_spend1) %in% c("Spend.Volume","Profit")]
+names(prd_spend1)
+# drop a list of columns
+prd_spend1 <-prd_spend
+names(prd_spend1)
+prd_spend1 <- prd_spend1[,!names(prd_spend1) %in% c("sqr_spend","sqroot_spend",     "exp_spend" )]
+names(prd_spend1)
+
+ Change Type of  a column
+ 
+ 
+  using %in%
+
+prd_spend$prd_grp <- ifelse( prd_spend$Prod_Code %in% c("FB","QFF"),"Reward","Non Reward" )
+table(prd_spend$prd_grp)
+
+ Cut and Changing Factor to Character
+prd_spend$spend_level <-cut(prd_spend$Spend_Value,
+                            breaks=c(min(prd_spend$Spend_Value),500,1000,2000,max(prd_spend$Spend_Value)),
+                            labels =c("0-500","500-1000","1000-2000","2000-High"))
+
+class(prd_spend$spend_level)
+mode(prd_spend$spend_level)
+table(prd_spend$spend_level)
+
+
+prd_spend$prd_grp <- ifelse( prd_spend$Prod_Code =="FB" | prd_spend$Prod_Code == "QFF","Reward","Non Reward" )
+
+table(prd_spend$prd_grp)
+
