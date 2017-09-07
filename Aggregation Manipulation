@@ -1,0 +1,66 @@
+### Aggregation
+
+
+
+install.packages("sqldf")
+library(sqldf)
+names(prd_spend)
+
+aggregate function
+?aggregate
+avg_prd1 <- aggregate(prd_spend$Spend_Value,
+                      by=list(prd_spend$Prod_Code), 
+                      data = prd_spend, 
+                      mean)
+
+Average spend by product
+avg_prd <- sqldf('select Prod_Code,
+                 avg(Spend_Value) as avg_spend_val,
+                 sum(Spend_Value) as sm_spend_val
+                 from prd_spend
+                 group by Prod_Code')
+
+ r average two columns
+
+
+
+prd_spend$bal_grp <- cut(prd_spend$Balance, breaks=c(-15000,0,2000,5000,6000,8000,85000))
+
+table(prd_spend$bal_grp)
+
+avg_prd2 <- aggregate(prd_spend$Spend_Value,
+                      by =list(prd_spend$Prod_Code,prd_spend$bal_grp), 
+                      data = prd_spend, 
+                      mean)
+
+avg_prd2 <- aggregate(Spend_Value~Prod_Code+bal_grp, 
+                      data = prd_spend, 
+                      mean)
+
+ Month and Year Sales
+sales <-read.csv(file="weekly.sales.csv",
+                 stringsAsFactors =F,
+                 head=T)
+names(sales)
+class(sales$Date)
+head(sales$Date)
+sales$Date <- as.Date(sales$Date, format="%m/%d/%Y")
+sales$month <-format(sales$Date,"%b")
+sales$year <- format(sales$Date,"%Y")
+
+Sales by month and year
+sales.month.year <- sqldf('select year,
+                          month,
+                          sum(Sales) as sales
+                          from sales
+                          group by year,
+                          month')
+table(sales.month.year$year)
+
+Average spend by product
+avg_prd3 <- sqldf('select Prod_Code,
+                  bal_grp,
+                  avg(Spend_Value) as avg_spend_val,
+                  sum(Spend_Value) as sm_spend_val
+                  from prd_spend
+                  group by Prod_Code, bal_grp')
