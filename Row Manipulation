@@ -1,0 +1,39 @@
+
+create index
+hundreth <- seq(from=2,to=nrow(prd_spend),by=100)
+head(hundreth)
+
+nrow(prd_spend.even)
+
+Select customers which have over median spend
+spend_over_median <- prd_spend[prd_spend$Balance>4940,]
+
+ Two condition - & element wise comparison and && overall comparison
+prd_select <-prd_spend[prd_spend$Balance <100 & prd_spend$Spend_Value>200,]
+
+Use which function 
+prd_select <-prd_spend[which(prd_spend$Balance <100 & prd_spend$Spend_Value>200),]
+
+Select both observations and variables
+prd_var_obs <- subset(prd_spend,
+                      prd_spend$Balance <100 & prd_spend$Spend_Value>200,
+                      select=c("Balance","Spend_Value"))
+
+Find - way to drop variables using subset function
+
+SORT OR ORDER
+
+order <-order(prd_spend$Spend_Value)
+
+Descening order with multiple columns
+prd_spend.ordered <- prd_spend[order(prd_spend$Prod_Code,prd_spend$Spend_Value,decreasing =T),]
+
+Multiple Columns with different ordar
+prd_spend.ordered1 <- prd_spend[order(-prd_spend$Spend_Value,prd_spend$Prod_Code),]
+
+Descening order
+prd_spend.ordered <- prd_spend[order(prd_spend$Spend_Value,decreasing =T),]
+prd_spend.ordered <- prd_spend[order(prd_spend$Spend_Value,decreasing =F),]
+
+ 
+
